@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Model Fold",
+    "description": "ZCode 式的 composer 模型选择器：提供方菜单向上展开、旁列模型子面板、可选推理等级，并支持完整键盘导航。"
+  }
+}

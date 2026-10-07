@@ -1,0 +1,8 @@
+# Bundle patch for dsh-model-fold. Installed as a profile bundle layer via the
+# `dsh.bundle.patch` manifest field. The row is a bare plugin by package name:
+# the node half (exports ".") has no runtime work, and the `dsh.client`
+# declaration in package.json makes the browser half (exports "./client",
+# served at /plugins/dsh-model-fold/client.js) load in the web GUI.
+- insert:
+    - id: model-fold
+      name: 'dsh-model-fold'

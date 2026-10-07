@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Model Fold",
+    "description": "ZCode-style model picker for the composer: a provider menu that opens upward, model submenus beside it, reasoning-effort selection, and full keyboard navigation."
+  }
+}

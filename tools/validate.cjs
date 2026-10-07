@@ -1,0 +1,26 @@
+const fs = require('fs')
+const path = require('path')
+const root = process.argv[2]
+const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
+
+console.log('name                :', pkg.name)
+console.log('main                :', pkg.main, fs.existsSync(path.join(root, pkg.main)))
+console.log('exports[./client]   :', pkg.exports['./client'], fs.existsSync(path.join(root, pkg.exports['./client'])))
+console.log('dsh.client          :', JSON.stringify(pkg.dsh.client))
+console.log('dsh.bundle          :', JSON.stringify(pkg.dsh.bundle))
+console.log('patch exists        :', fs.existsSync(path.join(root, pkg.dsh.bundle.patch)))
+console.log('--- patch content ---')
+console.log(fs.readFileSync(path.join(root, pkg.dsh.bundle.patch), 'utf8').trim())
+
+// The client bundle is a self-executing loader call, not a module with exports.
+const client = fs.readFileSync(path.join(root, pkg.exports['./client']), 'utf8')
+const hasLoader = client.includes('window.__ModuleLoader__.load(')
+const idMatch = client.match(/id:\s*'([^']+)'/)
+const exportsApply = client.includes('exports.apply = apply')
+const exportsInject = client.includes('exports.inject = inject')
+console.log('--- client bundle checks ---')
+console.log('__ModuleLoader__.load wrapper :', hasLoader)
+console.log('declared id                   :', idMatch ? idMatch[1] : '(none)')
+console.log('id matches package name       :', idMatch ? idMatch[1] === pkg.name : false)
+console.log('exports.apply present         :', exportsApply)
+console.log('exports.inject present        :', exportsInject)
